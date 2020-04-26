@@ -28,17 +28,17 @@ void Print(int index, int total, subdomain_t **Subs, char* subdomain) {
 
 void addFileToSubDomain(char* path, int key, subdomain_t **benson, subdomain_t **rigby, subdomain_t **mordecai) {
 
-	int didAdd = 0;	
+	int didAdd = 0;		//Flag for if a file has the count added to or not
 
 	switch(key) {
-
-		case 0:
+	
+		case 0:		//The key is for benson
 			for(int i = 0; i < benson_index; i++){
 
 				if (strcmp(benson[i]->file,path) == 0){
 					
-					benson[i]->count++;
-					benson_Total++;
+					benson[i]->count++;	//If file path matches any file paths already in benson
+					benson_Total++;		//Add to the count and also the total count
 					didAdd++;
 					break;
 				}
