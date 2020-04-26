@@ -1,0 +1,6 @@
+*~
+.*.s??
+*.o
+filter
+.DS_Store
+
