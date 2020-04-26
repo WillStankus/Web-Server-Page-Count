@@ -46,9 +46,9 @@ void addFileToSubDomain(char* path, int key, subdomain_t **benson, subdomain_t *
 			}
 
 			if (didAdd == 0){
-				benson[benson_index] = malloc(sizeof(subdomain_t));
-				subdomain_t *subdomain = malloc(sizeof(subdomain_t));
-				benson[benson_index] = subdomain;
+				benson[benson_index] = malloc(sizeof(subdomain_t));		//Create new index
+				subdomain_t *subdomain = malloc(sizeof(subdomain_t));		//Create subdomain
+				benson[benson_index] = subdomain;				//Connect them
 				subdomain->file = malloc(strlen(path));
 				strncpy(subdomain->file,path,strlen(path));
 				benson[benson_index]->count = 1;
@@ -56,10 +56,10 @@ void addFileToSubDomain(char* path, int key, subdomain_t **benson, subdomain_t *
 				benson_Total++;
 			}
 			break;
-		case 1:
+		case 1:		//Same as other case just for rigby
 			for(int i = 0; i < rigby_index; i++){
 
-				if (strcmp(rigby[i]->file,path) == 0){
+				if (strcmp(rigby[i]->file,path) == 0){		
 					
 					rigby[i]->count++;
 					rigby_Total++;
@@ -80,7 +80,7 @@ void addFileToSubDomain(char* path, int key, subdomain_t **benson, subdomain_t *
 				rigby_Total++;
 			}
 			break;
-		case 2:
+		case 2:				//Same as other case just for mordecai
 			
 			for(int i = 0; i < mordecai_index; i++){
 
@@ -111,15 +111,15 @@ void addFileToSubDomain(char* path, int key, subdomain_t **benson, subdomain_t *
 int EvaluateSubDomain(char* path){
 
 	if (strncmp(path,"benson",6) == 0) {
-		return 0;
+		return 0;	//Key for benson
 	}
 
 	if (strncmp(path,"rigby",5) == 0) {
-		return 1;
+		return 1;	//Key for rigby
 	}
 
 	if (strncmp(path,"mordecai",8) == 0) {
-		return 2;
+		return 2;	//Key for mordecai
 	}
 
 }
@@ -150,22 +150,21 @@ int main (int argc, char* argv[]){
 
 	while(fgets(buf,1024,csv)){
 		char *token;
-		token = strtok(buf, ",");
+		token = strtok(buf, ",");	//Split on commas to get each field
 		while(token != NULL) {
 
       			token = strtok(NULL, ",");
 
 			if (token == NULL) {}
 
-			else if (strncmp(token,"GET",3) == 0){
-				token = strtok(NULL, ",");
-				token = token + 8;
+			else if (strncmp(token,"GET",3) == 0){		//Only grab the strings with "GET"
+				token = strtok(NULL, ",");		
+				token = token + 8;			//Removes the https://
 				int subDomainKey = EvaluateSubDomain(token);
-				token = strtok(token,"/");
+				token = strtok(token,"/");		//Split the path on /
 				while(token != NULL){
 
-					if((strchr(token, '.') != NULL) && (flag > 1)) {
-						//printf("%s",token);
+					if((strchr(token, '.') != NULL) && (flag > 1)) {	//If it has a dot it means its a file
 						addFileToSubDomain(token,subDomainKey,benson,rigby,mordecai);
   					}
 					flag++;
